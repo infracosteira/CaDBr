@@ -21,3 +21,5 @@
 ### O projeto é aplicado a bases hidrológicas reais, contribuindo para organização e validação de dados utilizados em estudos ambientais e de recursos hídricos. O projeto conta com uma interface gráfica desenvolvida em Tkinter, permitindo ao usuário configurar parâmetros, selecionar arquivos de entrada e executar o fluxo completo de processamento e validação de dados hidrológicos.
 
 # Criação dos arquivos de entrada: 
+
+![Texto Alternativo](https://github.com/infracosteira/basinflow/blob/main/runoff_exemplo.png) 
