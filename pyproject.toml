@@ -7,4 +7,5 @@ requires-python = ">=3.12"
 dependencies = [
     "networkx>=3.6.1",
     "pandas>=3.0.0",
+    "tksheet>=7.5.19",
 ]

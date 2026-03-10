@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import networkx as nx
+import os
+import sys
 
 def clean_dataframe_columns(df, exclude_cols=None):
     if exclude_cols is None:
@@ -23,29 +25,29 @@ def clean_dataframe_columns(df, exclude_cols=None):
     return df_cleaned
 
 FILE_SCHEMAS = {
-    "reservoir.dat": {
+    "reservoir.csv": {
         "names": ['subasin_id', 'water_storage_capacity', 'dam_height', 'spillway_discharge'],
         "decimal": ","
     },
-    "routing.dat": {
+    "routing.csv": {
         "names": ['subasin_id', 'upstream', 'downstream'],
         "decimal": "."
     },
-    "runoff.dat": {
+    "runoff.csv": {
         "names": ['subasin_id', 'runoff_volume', 'runoff_peak_discharge'],
         "decimal": "."
     },
-    "sedyield.dat": {
+    "sedyield.csv": {
         "names": ['subasin_id', 'sed_enter_volume'],
         "decimal": "."
     },
-    "sed_param.dat": {
+    "sed_param.csv": {
         "names": ['subasin_id','sediment_density', 'sediment_retention_efficiency'],
         "decimal": "."
     }
 }
 
-def load_dat_file(file_path, schema_config, clean_function):
+def load_csv_file(file_path, schema_config, clean_function):
 
     qtd_colunas_esperadas = len(schema_config["names"])
 
@@ -231,3 +233,10 @@ def calculate_sediment_routing(
     )
 
 
+def resource_path(relative_path):
+    """ Retorna o caminho absoluto para o recurso, funciona em dev e PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)

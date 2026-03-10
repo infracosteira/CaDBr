@@ -5,7 +5,11 @@ from tkinter import filedialog, messagebox
 import pandas as pd
 import networkx as nx
 import numpy as np
-from data_utils import clean_dataframe_columns, FILE_SCHEMAS, load_dat_file
+from data_utils import clean_dataframe_columns, FILE_SCHEMAS, load_csv_file, resource_path
+import sys
+import os
+
+
 
 logger = logging.getLogger(__name__)
 FORMAT = '%(asctime)s - %(levelname)s: %(message)s'
@@ -18,7 +22,10 @@ def selecionar_arquivo(entry_widget, chave):
 
     file_path = filedialog.askopenfilename(
         title=f"Selecionar arquivo {chave}",
-        filetypes=[("Arquivos DAT", "*.dat"), ("Todos os arquivos", "*.*")]
+        filetypes=[("Arquivos CSV e DAT", ("*.csv", "*.dat")),
+                    ("Arquivos CSV", "*.csv"),
+                    ("Arquivos DAT", "*.dat"),
+                    ("Todos os arquivos", "*")]
     )
 
     if not file_path:
@@ -32,7 +39,7 @@ def selecionar_arquivo(entry_widget, chave):
     try:
         config = FILE_SCHEMAS[chave]
 
-        df = load_dat_file(
+        df = load_csv_file(
             file_path,
             config,
             clean_dataframe_columns
@@ -80,7 +87,7 @@ frame_entrada = tk.LabelFrame(root, text="Entrada de dados", padx=10, pady=10)
 frame_entrada.pack(fill="x", padx=20, pady=10)
 #o pack com fill="x" faz o frame ocupar toda a largura disponível, então esse retagunlo em especifico
 #vai ser o retangulo que engloba toda a seção de entrada de dados
-labels = ["routing.dat", "runoff.dat", "reservoir.dat"]
+labels = ["routing.csv", "runoff.csv", "reservoir.csv"]
 
 row_name = tk.Frame(frame_entrada)
 row_name.pack(fill="x", pady=2)
@@ -115,13 +122,13 @@ check_btn = tk.Checkbutton(frame_sedimentos, text="Simular dinâmica de sediment
 
 frame_sedimentos.configure(labelwidget=check_btn)
 
-# Linha do arquivo sedyield.dat
+# Linha do arquivo sedyield.csv
 row_sed = tk.Frame(frame_sedimentos)
 row_sed.pack(fill="x", pady=5)
-tk.Label(row_sed, text="Carregar arquivo sedyield.dat:", width=25, anchor="w").pack(side="left")
+tk.Label(row_sed, text="Carregar arquivo sedyield.csv:", width=25, anchor="w").pack(side="left")
 ent_sed = tk.Entry(row_sed, state=tk.DISABLED)
 ent_sed.pack(side="left", expand=True, fill="x", padx=5)
-btn_sed = tk.Button(row_sed, text="...", state=tk.DISABLED, command=lambda: selecionar_arquivo(ent_sed, "sedyield.dat"))
+btn_sed = tk.Button(row_sed, text="...", state=tk.DISABLED, command=lambda: selecionar_arquivo(ent_sed, "sedyield.csv"))
 btn_sed.pack(side="right")
 
 # Sub-seção Parâmetros Sedimentológicos
@@ -138,7 +145,7 @@ rb_file = tk.Radiobutton(row_p1, text="Carregar do arquivo:", variable=radio_var
 rb_file.pack(side="left")
 ent_param_file = tk.Entry(row_p1, state=tk.DISABLED)
 ent_param_file.pack(side="left", expand=True, fill="x", padx=5)
-btn_param_file = tk.Button(row_p1, text="...", state=tk.DISABLED, command=lambda: selecionar_arquivo(ent_param_file, "sed_param.dat"))
+btn_param_file = tk.Button(row_p1, text="...", state=tk.DISABLED, command=lambda: selecionar_arquivo(ent_param_file, "sed_param.csv"))
 btn_param_file.pack(side="right")
 
 # Opção 2: Valores manuais
@@ -149,21 +156,20 @@ rb_manual.pack(anchor="w")
 row_manual = tk.Frame(subframe_params)
 row_manual.pack(fill="x", padx=20)
 
-
-
 default_density = 1.5  # g/cm³
 default_efficiency = 0.50  # 50%
 
 tk.Label(
     row_manual,
-    text="Densidade aparente seca da barragem de terra (g/cm³):"
+    text="Densidade aparente seca da barragem de terra :"
 ).grid(row=0, column=0, sticky="w")
 
-ent_density = tk.Entry(row_manual, width=10, state=tk.NORMAL)
-ent_density.grid(row=0, column=1, padx=5, pady=2)
+ent_density = tk.Entry(row_manual, width=6, state=tk.NORMAL)
+ent_density.grid(row=0, column=1, padx=(5,0), pady=2)
 ent_density.insert(0, str(default_density))
 ent_density.config(state=tk.DISABLED)
 
+tk.Label(row_manual, text="g/cm³").grid(row=0, column=2, sticky="w")
 
 # EFICIÊNCIA
 tk.Label(
@@ -195,9 +201,9 @@ def on_calcular_click():
         txt_saida.see(tk.END)
         txt_saida['state'] = tk.DISABLED
 
-        df_reservoir = dataframes.get('reservoir.dat')
-        df_routing = dataframes.get('routing.dat')
-        df_runoff = dataframes.get('runoff.dat')
+        df_reservoir = dataframes.get('reservoir.csv')
+        df_routing = dataframes.get('routing.csv')
+        df_runoff = dataframes.get('runoff.csv')
 
         df_routing['downstream'] = df_routing['downstream'].replace(-999, np.nan)
 
@@ -302,7 +308,7 @@ def on_calcular_click():
         if sedimentos_checkbox.get():
 
         
-            df_sedyield = dataframes.get('sedyield.dat')
+            df_sedyield = dataframes.get('sedyield.csv')
             
             if df_sedyield is not None:
                 sed_attrs = df_sedyield.set_index('subasin_id').to_dict(orient='index')
@@ -310,10 +316,10 @@ def on_calcular_click():
             else:
                 messagebox.showerror(
                     "Erro",
-                    "Arquivo sedyield.dat não carregado."
+                    "Arquivo sedyield.csv não carregado."
                 )
                 txt_saida['state'] = tk.NORMAL
-                txt_saida.insert(tk.END, f"Erro: Arquivo sedyield.dat não carregado.\n")
+                txt_saida.insert(tk.END, f"Erro: Arquivo sedyield.csv não carregado.\n")
                 txt_saida.see(tk.END)
                 txt_saida['state'] = tk.DISABLED
                 return
@@ -333,13 +339,13 @@ def on_calcular_click():
             # --- Lógica de Acesso aos Parâmetros ---
             if radio_var.get() == 1:
                 # MODO ARQUIVO
-                df_sed_param = dataframes.get('sed_param.dat')
+                df_sed_param = dataframes.get('sed_param.csv')
                 if df_sed_param is not None:
                     # Criar dicionários mapeando subasin_id para os valores
                     density_map = dict(zip(df_sed_param['subasin_id'], df_sed_param['sediment_density']))
                     efficiency_map = dict(zip(df_sed_param['subasin_id'], df_sed_param['sediment_retention_efficiency']))
                 else:
-                    messagebox.showerror("Erro", "Arquivo sed_param.dat não carregado.")
+                    messagebox.showerror("Erro", "Arquivo sed_param.csv não carregado.")
                     return
             else:
                 # MODO MANUAL
@@ -380,7 +386,7 @@ def on_calcular_click():
 
                 # Tenta pegar do mapa (arquivo). Se não existir ou for modo manual, usa o default
                 if radio_var.get() == 1:
-                    # No modo arquivo, se o ID não existir no .dat, você pode definir um fallback
+                    # No modo arquivo, se o ID não existir no .csv, você pode definir um fallback
                     current_density = density_map.get(i)
                     current_efficiency = efficiency_map.get(i)
                 else:
@@ -423,12 +429,12 @@ def on_calcular_click():
             """ print("result_discharge com sedimentos:")
             print(result_discharge.head(10)) """
 
-        result_discharge.to_csv(f"{nome}.dat", index=False)
+        result_discharge.to_csv(f"{nome}.csv", index=False)
 
         """ print("calculo de sedimentos finalizado!") """
 
         txt_saida['state'] = tk.NORMAL
-        txt_saida.insert(tk.END, f"O arquivo {nome}.dat foi gerado com sucesso! \n")
+        txt_saida.insert(tk.END, f"O arquivo {nome}.csv foi gerado com sucesso! \n")
         txt_saida.see(tk.END)
         txt_saida['state'] = tk.DISABLED
 
@@ -449,10 +455,8 @@ frame_saida.pack(fill="both", expand=True, padx=20, pady=10)
 txt_saida = tk.Text(frame_saida, height=6, bg="#ffffff", state=tk.DISABLED)
 txt_saida.pack(fill="both", expand=True)
 
+root.iconbitmap(resource_path("icon.ico"))
 
 root.mainloop()
 
 logger.info('Finished') 
-
-
-#Diminuir o acoplamento usar mvc

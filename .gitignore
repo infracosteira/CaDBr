@@ -1,6 +1,7 @@
 .vscode/launch.json
 *.log
 *.dat
+*.csv
 result_discharge.dat
 
 data/
