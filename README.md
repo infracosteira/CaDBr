@@ -3,7 +3,7 @@
 🌊 Cascade Dam Break Model - CaDBr
 CaDBr é uma ferramenta de análise capaz de identificar e estimar cenários de ruptura sucessiva de barragens em redes densas de reservatórios, desenvolvida usando um fluxo estruturado de processamento de dados.
 🎯 Objetivo 
-* * * Simular o comportamento hidrológico da bacia hidrográfica associado a eventos extremos de escoamento;
+* Simular o comportamento hidrológico da bacia hidrográfica associado a eventos extremos de escoamento;
 * Simular processos erosivos e de produção de sedimentos em bacias hidrográficas;
 * Simular processos de ruptura de barragens individualmente ou em cascata;
 * Simular a propagação dos fluxos de água e sedimento ao longo da rede de reservatórios
