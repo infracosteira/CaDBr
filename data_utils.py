@@ -34,7 +34,7 @@ def clean_dataframe_columns(df: pd.DataFrame, exclude_cols: list = None) -> pd.D
                 .str.replace(',', '.', regex=False)
             )
             df_cleaned[col] = pd.to_numeric(df_cleaned[col], errors='coerce')
-    
+
     print(df_cleaned.head())  # Debug: Verificar as primeiras linhas após limpeza
 
     return df_cleaned
@@ -64,22 +64,43 @@ FILE_SCHEMAS = {
 }
 
 
+def _detectar_separador(file_path: str) -> str:
+    """
+    Lê as primeiras linhas do arquivo e detecta o separador mais provável
+    entre: tabulação, ponto-e-vírgula, vírgula e espaço.
+    """
+    with open(file_path, encoding='latin1') as f:
+        # Pula o cabeçalho descritivo e lê a linha de dados
+        linhas = [f.readline() for _ in range(3)]
+
+    amostra = ''.join(linhas)
+    contagens = {sep: amostra.count(sep) for sep in ['\t', ';', ',']}
+    return max(contagens, key=contagens.get)
+
+
 def load_csv_file(file_path: str, schema_config: dict, clean_function) -> pd.DataFrame:
     """
     Lê um arquivo CSV/DAT tabulado, valida o número de colunas,
     renomeia conforme o schema e limpa os dados.
+    Detecta automaticamente o separador (tab, ; ou ,).
     """
     qtd_colunas_esperadas = len(schema_config["names"])
+
+    separador = _detectar_separador(file_path)
 
     df = pd.read_table(
         file_path,
         encoding='latin1',
         skiprows=1,
-        sep='\t',
+        sep=separador,
         quotechar='"',
         engine='python',
-        #index_col=0
     )
+
+    # CORREÇÃO 1: Remove colunas extras completamente vazias.
+    # Arquivos .dat/.csv costumam ter separadores extras no final de cada linha,
+    # o que gera colunas fantasmas que quebravam a validação.
+    df = df.dropna(axis=1, how='all')
 
     if df.shape[1] != qtd_colunas_esperadas:
         raise ValueError(
@@ -208,6 +229,13 @@ def calculate_sediment_routing(
         * (result_discharge['volume_total'] * COEF_FENDA_SED * df_merged['dam_height']) ** COEF_SED_N
     ).round(2)
 
+    # CORREÇÃO 2: Coluna massa_sedimento_erodido estava presente no código original
+    # mas foi perdida na refatoração. Restaurada aqui usando a densidade padrão,
+    # igual ao comportamento original (calculada antes do loop, com default_density).
+    sed_discharge['massa_sedimento_erodido'] = (
+        sed_discharge['volume_sedimento_erodido'] * default_density
+    ).round(2)
+
     sed_in = {}
     sed_out = {}
 
@@ -221,7 +249,9 @@ def calculate_sediment_routing(
             current_density = default_density
             current_efficiency = default_efficiency
 
-        sed_local = G.nodes[i]['sed_enter_volume']
+        # CORREÇÃO 3: Uso de .get() com fallback 0.0 para evitar KeyError quando
+        # um subasin_id do grafo não existe no arquivo sedyield (sem aresta no routing).
+        sed_local = G.nodes[i].get('sed_enter_volume', 0.0)
         sed_in[i] = sed_local + sum(sed_out[up] for up in upstreams) if upstreams else sed_local
 
         if ruptura_dict[i]:
