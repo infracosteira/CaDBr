@@ -602,3 +602,159 @@ INFO:__main__:Processing data
 2026-03-10 10:17:43,385 - INFO: Finished
 2026-03-10 10:28:02,374 - INFO: Started
 2026-03-10 10:28:05,089 - INFO: Finished
+2026-03-20 22:23:35,509 - INFO: Started
+2026-03-20 22:23:46,001 - INFO: Finished
+2026-03-24 10:11:40,391 - INFO: Started
+2026-03-24 10:18:39,771 - INFO: Finished
+2026-03-24 10:18:55,216 - INFO: Started
+2026-03-24 10:19:10,698 - INFO: Finished
+2026-03-24 10:19:27,539 - INFO: Started
+2026-03-24 10:28:40,230 - INFO: Finished
+2026-03-24 10:28:44,529 - INFO: Started
+2026-03-24 10:30:52,764 - INFO: Finished
+2026-03-24 10:31:24,141 - INFO: Started
+2026-03-24 10:31:34,493 - INFO: Finished
+2026-03-24 10:31:45,123 - INFO: Started
+2026-03-24 10:32:05,983 - INFO: Finished
+2026-03-24 10:33:38,797 - INFO: Started
+2026-03-24 10:34:13,898 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:34:14,056 - INFO: DataFrames mesclados para construção do grafo
+2026-03-24 10:34:20,241 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:34:20,249 - INFO: DataFrames mesclados para construção do grafo
+2026-03-24 10:34:20,272 - INFO: Iniciando cálculo de sedimentos
+2026-03-24 10:35:47,065 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\mainapp.py", line 396, in on_calcular_click
+    sed_local = G.nodes[i]['sed_enter_volume']
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 10:35:47,731 - INFO: Finished
+2026-03-24 10:35:58,948 - INFO: Started
+2026-03-24 10:36:24,794 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:36:40,724 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:37:40,518 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 221, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 10:41:34,874 - INFO: Finished
+2026-03-24 10:51:13,565 - INFO: Started
+2026-03-24 10:52:34,231 - INFO: Finished
+2026-03-24 10:52:38,459 - INFO: Started
+2026-03-24 10:53:12,803 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:53:28,325 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:55:30,280 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:55:47,324 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 221, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 10:56:27,750 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 10:56:30,772 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 221, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 10:56:37,872 - INFO: Finished
+2026-03-24 10:57:10,226 - INFO: Started
+2026-03-24 10:59:46,757 - INFO: Finished
+2026-03-24 10:59:48,136 - INFO: Started
+2026-03-24 10:59:59,779 - INFO: Finished
+2026-03-24 11:00:01,079 - INFO: Started
+2026-03-24 11:00:02,573 - INFO: Finished
+2026-03-24 11:00:25,219 - INFO: Started
+2026-03-24 11:00:37,783 - INFO: Finished
+2026-03-24 11:02:55,192 - INFO: Started
+2026-03-24 11:03:08,020 - INFO: Finished
+2026-03-24 11:03:35,340 - INFO: Started
+2026-03-24 11:04:00,605 - INFO: Finished
+2026-03-24 11:05:09,729 - INFO: Started
+2026-03-24 11:05:57,698 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:05:57,706 - INFO: DataFrames mesclados para construção do grafo
+2026-03-24 11:05:58,108 - INFO: Iniciando cálculo de sedimentos
+2026-03-24 11:05:59,859 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\mainapp.py", line 396, in on_calcular_click
+    sed_local = G.nodes[i]['sed_enter_volume']
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:06:04,672 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:06:04,678 - INFO: DataFrames mesclados para construção do grafo
+2026-03-24 11:06:04,703 - INFO: Iniciando cálculo de sedimentos
+2026-03-24 11:06:12,562 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\mainapp.py", line 396, in on_calcular_click
+    sed_local = G.nodes[i]['sed_enter_volume']
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:06:13,643 - INFO: Finished
+2026-03-24 11:07:01,210 - INFO: Started
+2026-03-24 11:07:46,544 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:07:49,496 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:12:40,585 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 224, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:12:41,358 - INFO: Finished
+2026-03-24 11:12:44,394 - INFO: Started
+2026-03-24 11:13:05,900 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:13:09,664 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:13:12,152 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 224, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:13:12,676 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:15:44,539 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 224, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:21:04,310 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:21:11,727 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 224, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:21:32,927 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:21:43,161 - INFO: Cálculo iniciado pelo usuário
+2026-03-24 11:23:35,598 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "F:\bolsa\basinflow\main.py", line 151, in on_calcular_click
+    result_discharge = calculate_sediment_routing(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\bolsa\basinflow\data_utils.py", line 224, in calculate_sediment_routing
+    sed_local = G.nodes[i]['sed_enter_volume']
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'sed_enter_volume'
+2026-03-24 11:38:16,122 - INFO: Finished
+2026-03-24 11:38:30,831 - INFO: Started

@@ -1,17 +1,31 @@
-import pandas as pd
-import numpy as np
-import networkx as nx
+# data_utils.py
 import os
 import sys
 
-def clean_dataframe_columns(df, exclude_cols=None):
+import pandas as pd
+import numpy as np
+import networkx as nx
+
+from constants import (
+    COEF_FENDA_PEAK,
+    COEF_RUPTURA_A,
+    COEF_RUPTURA_B,
+    COEF_FENDA_SED,
+    COEF_SED_M,
+    COEF_SED_N,
+    DEFAULT_DENSITY,
+    DEFAULT_EFFICIENCY,
+)
+
+
+def clean_dataframe_columns(df: pd.DataFrame, exclude_cols: list = None) -> pd.DataFrame:
+    """Limpa e converte para numérico todas as colunas, exceto as listadas em exclude_cols."""
     if exclude_cols is None:
         exclude_cols = []
-    df_cleaned = df.copy()
 
+    df_cleaned = df.copy()
     for col in df_cleaned.columns:
         if col not in exclude_cols:
-            # Converte para string, limpa espaços e troca vírgula por ponto
             df_cleaned[col] = (
                 df_cleaned[col]
                 .astype(str)
@@ -19,36 +33,42 @@ def clean_dataframe_columns(df, exclude_cols=None):
                 .str.strip()
                 .str.replace(',', '.', regex=False)
             )
-            # Converte para float final
             df_cleaned[col] = pd.to_numeric(df_cleaned[col], errors='coerce')
     
+    print(df_cleaned.head())  # Debug: Verificar as primeiras linhas após limpeza
+
     return df_cleaned
+
 
 FILE_SCHEMAS = {
     "reservoir.csv": {
         "names": ['subasin_id', 'water_storage_capacity', 'dam_height', 'spillway_discharge'],
-        "decimal": ","
+        "decimal": ",",
     },
     "routing.csv": {
         "names": ['subasin_id', 'upstream', 'downstream'],
-        "decimal": "."
+        "decimal": ".",
     },
     "runoff.csv": {
         "names": ['subasin_id', 'runoff_volume', 'runoff_peak_discharge'],
-        "decimal": "."
+        "decimal": ".",
     },
     "sedyield.csv": {
         "names": ['subasin_id', 'sed_enter_volume'],
-        "decimal": "."
+        "decimal": ",",
     },
     "sed_param.csv": {
-        "names": ['subasin_id','sediment_density', 'sediment_retention_efficiency'],
-        "decimal": "."
-    }
+        "names": ['subasin_id', 'sediment_density', 'sediment_retention_efficiency'],
+        "decimal": ".",
+    },
 }
 
-def load_csv_file(file_path, schema_config, clean_function):
 
+def load_csv_file(file_path: str, schema_config: dict, clean_function) -> pd.DataFrame:
+    """
+    Lê um arquivo CSV/DAT tabulado, valida o número de colunas,
+    renomeia conforme o schema e limpa os dados.
+    """
     qtd_colunas_esperadas = len(schema_config["names"])
 
     df = pd.read_table(
@@ -57,7 +77,8 @@ def load_csv_file(file_path, schema_config, clean_function):
         skiprows=1,
         sep='\t',
         quotechar='"',
-        engine='python'
+        engine='python',
+        #index_col=0
     )
 
     if df.shape[1] != qtd_colunas_esperadas:
@@ -67,13 +88,25 @@ def load_csv_file(file_path, schema_config, clean_function):
         )
 
     df.columns = schema_config["names"]
-
     df = clean_function(df, exclude_cols=['subasin_id'])
-
     return df
 
-def calculate_water_routing(df_reservoir, df_routing, df_runoff):
 
+def calculate_water_routing(
+    df_reservoir: pd.DataFrame,
+    df_routing: pd.DataFrame,
+    df_runoff: pd.DataFrame,
+) -> tuple:
+    """
+    Constrói o grafo direcionado e executa o roteamento hídrico em ordem topológica.
+
+    Retorna:
+        result       (DataFrame) — volume e vazão de entrada/saída e flag de ruptura
+        G            (DiGraph)   — grafo com atributos dos nós
+        ruptura_dict (dict)      — mapeamento subasin_id → bool de ruptura
+        sequencia    (list)      — ordem topológica de processamento
+        df_merged    (DataFrame) — reservoir + runoff mesclados
+    """
     df_routing = df_routing.copy()
     df_routing['downstream'] = df_routing['downstream'].replace(-999, np.nan)
 
@@ -88,9 +121,8 @@ def calculate_water_routing(df_reservoir, df_routing, df_runoff):
         df_edges,
         source='upstream',
         target='downstream',
-        create_using=nx.DiGraph()
+        create_using=nx.DiGraph(),
     )
-
     nx.set_node_attributes(G, node_attrs)
 
     sequencia = list(nx.topological_sort(G))
@@ -102,18 +134,11 @@ def calculate_water_routing(df_reservoir, df_routing, df_runoff):
     ruptura_dict = {}
 
     for i in sequencia:
-
         upstreams = list(G.predecessors(i))
 
         if upstreams:
-            volume_in[i] = (
-                G.nodes[i]['runoff_volume'] +
-                sum(volume_out[up] for up in upstreams)
-            )
-            peak_in[i] = (
-                G.nodes[i]['runoff_peak_discharge'] +
-                sum(peak_out[up] for up in upstreams)
-            )
+            volume_in[i] = G.nodes[i]['runoff_volume'] + sum(volume_out[up] for up in upstreams)
+            peak_in[i] = G.nodes[i]['runoff_peak_discharge'] + sum(peak_out[up] for up in upstreams)
         else:
             volume_in[i] = G.nodes[i]['runoff_volume']
             peak_in[i] = G.nodes[i]['runoff_peak_discharge']
@@ -121,77 +146,72 @@ def calculate_water_routing(df_reservoir, df_routing, df_runoff):
         spillway = G.nodes[i]['spillway_discharge']
         storage_capacity = G.nodes[i]['water_storage_capacity']
 
-        rompeu = (0.707121014402343 * peak_in[i] > spillway)
+        rompeu = COEF_FENDA_PEAK * peak_in[i] > spillway
         ruptura_dict[i] = rompeu
 
         if rompeu:
             volume_out[i] = volume_in[i] + storage_capacity
-            peak_out[i] = 0.0344 * (volume_out[i] ** 0.6527)
+            peak_out[i] = COEF_RUPTURA_A * (volume_out[i] ** COEF_RUPTURA_B)
         else:
             volume_out[i] = volume_in[i]
-            peak_out[i] = 0.707121014402343 * peak_in[i]
+            peak_out[i] = COEF_FENDA_PEAK * peak_in[i]
 
     result = pd.DataFrame({
-        "subasin_id": df_runoff["subasin_id"],
-        "volume_entrada": df_runoff["subasin_id"].map(volume_in).astype(int),
-        "volume_total": df_runoff["subasin_id"].map(volume_out).astype(int),
+        "subasin_id":       df_runoff["subasin_id"],
+        "volume_entrada":   df_runoff["subasin_id"].map(volume_in).astype(int),
+        "volume_total":     df_runoff["subasin_id"].map(volume_out).astype(int),
         "vazão_de_entrada": df_runoff["subasin_id"].map(peak_in).round(2),
-        "vazão_de_saida": df_runoff["subasin_id"].map(peak_out).round(2),
-        "rompeu": df_runoff["subasin_id"].map(ruptura_dict)
+        "vazão_de_saida":   df_runoff["subasin_id"].map(peak_out).round(2),
+        "rompeu":           df_runoff["subasin_id"].map(ruptura_dict),
     })
 
     return result, G, ruptura_dict, sequencia, df_merged
 
-def calculate_sediment_routing(
-    result_discharge,
-    G,
-    ruptura_dict,
-    sequencia_processamento,
-    df_sedyield,
-    df_merged,
-    radio_mode,
-    df_sed_param=None,
-    density_manual=None,
-    efficiency_manual=None):
 
-    # adiciona atributos de sedimento no grafo
+def calculate_sediment_routing(
+    result_discharge: pd.DataFrame,
+    G: nx.DiGraph,
+    ruptura_dict: dict,
+    sequencia_processamento: list,
+    df_sedyield: pd.DataFrame,
+    df_merged: pd.DataFrame,
+    radio_mode: int,
+    df_sed_param: pd.DataFrame = None,
+    density_manual: float = None,
+    efficiency_manual: float = None,
+) -> pd.DataFrame:
+    """
+    Executa o roteamento de sedimentos no grafo em ordem topológica.
+
+    radio_mode=1 → parâmetros lidos de df_sed_param
+    radio_mode=2 → parâmetros manuais (density_manual, efficiency_manual)
+
+    Retorna result_discharge enriquecido com as colunas de sedimento.
+    """
     sed_attrs = df_sedyield.set_index('subasin_id').to_dict(orient='index')
     nx.set_node_attributes(G, sed_attrs)
 
-    pm_fenda = 0.842584358697712
-    m = 0.0261
-    n = 0.769
+    default_density = density_manual if density_manual is not None else DEFAULT_DENSITY
+    default_efficiency = efficiency_manual if efficiency_manual is not None else DEFAULT_EFFICIENCY
 
-    default_density = density_manual if density_manual else 1.5
-    default_efficiency = efficiency_manual if efficiency_manual else 0.50
-
-    # --- modo arquivo ---
     if radio_mode == 1:
-        density_map = dict(zip(
-            df_sed_param['subasin_id'],
-            df_sed_param['sediment_density']
-        ))
-        efficiency_map = dict(zip(
-            df_sed_param['subasin_id'],
-            df_sed_param['sediment_retention_efficiency']
-        ))
+        density_map = dict(zip(df_sed_param['subasin_id'], df_sed_param['sediment_density']))
+        efficiency_map = dict(zip(df_sed_param['subasin_id'], df_sed_param['sediment_retention_efficiency']))
     else:
         density_map = {}
         efficiency_map = {}
 
-    sedimentos_discharge = pd.DataFrame()
-    sedimentos_discharge["subasin_id"] = result_discharge["subasin_id"]
-
-    sedimentos_discharge['volume_sedimento_erodido'] = (
-        result_discharge['rompeu'] * m *
-        (result_discharge['volume_total'] * pm_fenda * df_merged['dam_height']) ** n
+    sed_discharge = pd.DataFrame()
+    sed_discharge["subasin_id"] = result_discharge["subasin_id"]
+    sed_discharge['volume_sedimento_erodido'] = (
+        result_discharge['rompeu'] * COEF_SED_M
+        * (result_discharge['volume_total'] * COEF_FENDA_SED * df_merged['dam_height']) ** COEF_SED_N
     ).round(2)
 
     sed_in = {}
     sed_out = {}
 
     for i in sequencia_processamento:
-
         upstreams = list(G.predecessors(i))
 
         if radio_mode == 1:
@@ -202,41 +222,26 @@ def calculate_sediment_routing(
             current_efficiency = default_efficiency
 
         sed_local = G.nodes[i]['sed_enter_volume']
-
-        if upstreams:
-            sed_in[i] = sed_local + sum(sed_out[up] for up in upstreams)
-        else:
-            sed_in[i] = sed_local
+        sed_in[i] = sed_local + sum(sed_out[up] for up in upstreams) if upstreams else sed_local
 
         if ruptura_dict[i]:
-            vol_erodido = sedimentos_discharge.loc[
-                sedimentos_discharge['subasin_id'] == i,
-                'volume_sedimento_erodido'
+            vol_erodido = sed_discharge.loc[
+                sed_discharge['subasin_id'] == i, 'volume_sedimento_erodido'
             ].values[0]
-
-            massa_erodida = vol_erodido * current_density
-            sed_out[i] = sed_in[i] + massa_erodida
+            sed_out[i] = sed_in[i] + vol_erodido * current_density
         else:
             sed_out[i] = current_efficiency * sed_in[i]
 
-    sedimentos_discharge['sedimento_afluente'] = (
-        sedimentos_discharge['subasin_id'].map(sed_in).round(2)
-    )
+    sed_discharge['sedimento_afluente'] = sed_discharge['subasin_id'].map(sed_in).round(2)
+    sed_discharge['sedimento_efluente'] = sed_discharge['subasin_id'].map(sed_out).round(2)
 
-    sedimentos_discharge['sedimento_efluente'] = (
-        sedimentos_discharge['subasin_id'].map(sed_out).round(2)
-    )
-
-    return result_discharge.merge(
-        sedimentos_discharge,
-        on='subasin_id'
-    )
+    return result_discharge.merge(sed_discharge, on='subasin_id')
 
 
-def resource_path(relative_path):
-    """ Retorna o caminho absoluto para o recurso, funciona em dev e PyInstaller """
+def resource_path(relative_path: str) -> str:
+    """Retorna o caminho absoluto para o recurso — funciona em dev e com PyInstaller."""
     try:
         base_path = sys._MEIPASS
-    except Exception:
+    except AttributeError:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)

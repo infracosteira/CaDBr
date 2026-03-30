@@ -309,6 +309,9 @@ def on_calcular_click():
 
         
             df_sedyield = dataframes.get('sedyield.csv')
+
+            print("Nós do grafo:", list(G.nodes))
+            print(df_sedyield.head())
             
             if df_sedyield is not None:
                 sed_attrs = df_sedyield.set_index('subasin_id').to_dict(orient='index')
@@ -379,6 +382,8 @@ def on_calcular_click():
             sed_out = {} # Massa de sedimentos efluente - sediment routing (ton)
 
             logger.info('Iniciando cálculo de sedimentos')
+            
+            print(G.nodes)
 
             for i in sequencia_processamento:
 
