@@ -1,8 +1,11 @@
-# myapp.py
+# main.py
 import logging
 import traceback
 import tkinter as tk
 from tkinter import filedialog, messagebox
+
+import pandas as pd
+from tksheet import Sheet
 
 from data_utils import (
     clean_dataframe_columns,
@@ -37,8 +40,127 @@ def log_saida(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Entrada manual via planilha (tksheet)
+# ---------------------------------------------------------------------------
+
+def abrir_editor_manual(chave: str, entry_widget: tk.Entry) -> None:
+    """
+    Abre uma janela com uma planilha editável (tksheet) pré-configurada
+    com os cabeçalhos do schema do arquivo. O usuário pode digitar ou
+    colar dados (Ctrl+V) e confirmar para importar como se fosse um arquivo.
+    """
+    schema = FILE_SCHEMAS[chave]
+    colunas = schema["names"]
+
+    janela = tk.Toplevel(root)
+    janela.title(f"Entrada manual — {chave}")
+    janela.geometry("700x450")
+    janela.grab_set()  # Torna a janela modal
+
+    janela.grid_columnconfigure(0, weight=1)
+    janela.grid_rowconfigure(1, weight=1)
+
+    # Instrução
+    tk.Label(
+        janela,
+        text=f"Cole ou preencha os dados abaixo. Colunas esperadas: {', '.join(colunas)}",
+        anchor="w",
+        padx=10,
+        pady=6,
+        font=('Arial', 9),
+        fg="#444444",
+    ).grid(row=0, column=0, columnspan=2, sticky="ew")
+
+    # Frame da planilha
+    frame_sheet = tk.Frame(janela)
+    frame_sheet.grid(row=1, column=0, columnspan=2, sticky="nsew", padx=10, pady=(0, 5))
+    frame_sheet.grid_columnconfigure(0, weight=1)
+    frame_sheet.grid_rowconfigure(0, weight=1)
+
+    # Linhas iniciais em branco para o usuário preencher
+    linhas_iniciais = [[""] * len(colunas) for _ in range(50)]  # 50 linhas em branco
+
+    sheet = Sheet(
+        frame_sheet,
+        headers=colunas,
+        data=linhas_iniciais,
+        height=340,
+        expand_sheet_if_paste_too_big=True
+    )
+    sheet.enable_bindings()          # Habilita Ctrl+C, Ctrl+V, seleção, etc.
+    sheet.grid(row=0, column=0, sticky="nsew")
+
+    # ---------------------------------------------------------------------------
+    def confirmar():
+        """Lê os dados da planilha, valida e carrega no dicionário dataframes."""
+        dados = sheet.get_sheet_data(get_header=False)
+
+        # Remove linhas completamente vazias
+        dados = [linha for linha in dados if any(str(c).strip() for c in linha)]
+
+        if not dados:
+            messagebox.showwarning("Aviso", "Nenhum dado foi preenchido.", parent=janela)
+            return
+
+        # Valida número de colunas — aceita linhas com exatamente len(colunas) células
+        for idx, linha in enumerate(dados, start=1):
+            if len(linha) != len(colunas):
+                messagebox.showerror(
+                    "Erro de formato",
+                    f"Linha {idx} tem {len(linha)} coluna(s), mas eram esperadas {len(colunas)}.\n"
+                    f"Verifique se os dados colados estão no formato correto.",
+                    parent=janela,
+                )
+                return
+
+        try:
+            df = pd.DataFrame(dados, columns=colunas)
+            df = clean_dataframe_columns(df, exclude_cols=['subasin_id'])
+        except Exception as e:
+            messagebox.showerror("Erro ao processar dados", str(e), parent=janela)
+            return
+
+        # Salva e atualiza a entry como "[manual]"
+        dataframes[chave] = df
+        entry_widget.config(state=tk.NORMAL)
+        entry_widget.delete(0, tk.END)
+        entry_widget.insert(0, "[entrada manual]")
+        entry_widget.config(state=tk.DISABLED)
+
+        log_saida(f"Arquivo '{chave}' carregado manualmente com {len(df)} linhas")
+        janela.destroy()
+
+    # ---------------------------------------------------------------------------
+    # Botões da janela
+    frame_btns = tk.Frame(janela)
+    frame_btns.grid(row=2, column=0, columnspan=2, pady=(0, 10))
+
+    tk.Button(
+        frame_btns,
+        text="✔ Confirmar",
+        bg="#3331c7",
+        fg="white",
+        font=('Arial', 10, 'bold'),
+        width=14,
+        command=confirmar,
+    ).pack(side="left", padx=8)
+
+    tk.Button(
+        frame_btns,
+        text="✖ Cancelar",
+        bg="#f44336",
+        fg="white",
+        font=('Arial', 10, 'bold'),
+        width=14,
+        command=janela.destroy,
+    ).pack(side="left", padx=8)
+
+
+# ---------------------------------------------------------------------------
 # Callbacks
 # ---------------------------------------------------------------------------
+
+# aqui tambem definimos o tipo de dado que a variavel deve esperar, nesse caso um string e uma classe do tkinter chamada tk.Entry, que é o campo de entrada de texto da interface gráfica. O tipo de retorno é None, ou seja, a função não retorna nenhum valor.
 
 def selecionar_arquivo(entry_widget: tk.Entry, chave: str) -> None:
     """Abre o diálogo de seleção de arquivo e carrega o CSV/DAT correspondente."""
@@ -54,6 +176,8 @@ def selecionar_arquivo(entry_widget: tk.Entry, chave: str) -> None:
 
     if not file_path:
         return
+    
+    #o entry_widget é onde o texto do caminho do arquivo é exibido. É literalmente a caixa de entrada.
 
     entry_widget.config(state=tk.NORMAL)
     entry_widget.delete(0, tk.END)
@@ -74,13 +198,15 @@ def selecionar_arquivo(entry_widget: tk.Entry, chave: str) -> None:
 def toggle_sedimentos() -> None:
     """Habilita ou desabilita os controles da seção de sedimentos conforme o checkbox."""
     novo_estado = tk.NORMAL if sedimentos_checkbox.get() else tk.DISABLED
-    componentes = [ent_sed, btn_sed, rb_file, rb_manual, ent_param_file, btn_param_file, ent_density, ent_efficiency]
+    componentes = [ent_sed, btn_sed, btn_sed_manual, rb_file, rb_manual,
+                   ent_param_file, btn_param_file, btn_param_manual,
+                   ent_density, ent_efficiency]
     for comp in componentes:
         comp.config(state=novo_estado)
 
 
 def _validar_dataframes_obrigatorios() -> bool:
-    """Verifica se os três DataFrames obrigatórios foram carregados. Exibe erro e retorna False se faltar algum."""
+    """Verifica se os três DataFrames obrigatórios foram carregados."""
     obrigatorios = ['reservoir.csv', 'routing.csv', 'runoff.csv']
     faltando = [k for k in obrigatorios if k not in dataframes]
     if faltando:
@@ -197,6 +323,13 @@ for label in labels:
     tk.Label(row, text=f"Carregar arquivo {label}:", width=25, anchor="w").pack(side="left")
     ent = tk.Entry(row, state=tk.DISABLED)
     ent.pack(side="left", expand=True, fill="x", padx=5)
+    # Botão editor manual (✎) — abre planilha tksheet
+    tk.Button(
+        row, text="✎",
+        width=2,
+        command=lambda e=ent, l=label: abrir_editor_manual(l, e)
+    ).pack(side="right", padx=(2, 0))
+    # Botão seleção de arquivo (...)
     tk.Button(
         row, text="...",
         command=lambda e=ent, l=label: selecionar_arquivo(e, l)
@@ -217,17 +350,24 @@ check_btn = tk.Checkbutton(
 )
 frame_sedimentos.configure(labelwidget=check_btn)
 
+# Linha sedyield.csv
 row_sed = tk.Frame(frame_sedimentos)
 row_sed.pack(fill="x", pady=5)
 tk.Label(row_sed, text="Carregar arquivo sedyield.csv:", width=25, anchor="w").pack(side="left")
 ent_sed = tk.Entry(row_sed, state=tk.DISABLED)
 ent_sed.pack(side="left", expand=True, fill="x", padx=5)
+btn_sed_manual = tk.Button(
+    row_sed, text="✎", width=2, state=tk.DISABLED,
+    command=lambda: abrir_editor_manual("sedyield.csv", ent_sed)
+)
+btn_sed_manual.pack(side="right", padx=(2, 0))
 btn_sed = tk.Button(
     row_sed, text="...", state=tk.DISABLED,
     command=lambda: selecionar_arquivo(ent_sed, "sedyield.csv")
 )
 btn_sed.pack(side="right")
 
+# Sub-seção Parâmetros sedimentológicos
 subframe_params = tk.LabelFrame(frame_sedimentos, text="Parâmetros sedimentológicos", padx=10, pady=10)
 subframe_params.pack(fill="x", pady=5)
 
@@ -239,6 +379,11 @@ rb_file = tk.Radiobutton(row_p1, text="Carregar do arquivo:", variable=radio_var
 rb_file.pack(side="left")
 ent_param_file = tk.Entry(row_p1, state=tk.DISABLED)
 ent_param_file.pack(side="left", expand=True, fill="x", padx=5)
+btn_param_manual = tk.Button(
+    row_p1, text="✎", width=2, state=tk.DISABLED,
+    command=lambda: abrir_editor_manual("sed_param.csv", ent_param_file)
+)
+btn_param_manual.pack(side="right", padx=(2, 0))
 btn_param_file = tk.Button(
     row_p1, text="...", state=tk.DISABLED,
     command=lambda: selecionar_arquivo(ent_param_file, "sed_param.csv")

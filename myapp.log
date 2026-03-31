@@ -797,3 +797,154 @@ KeyError: 'sed_enter_volume'
 2026-03-31 09:00:24,587 - INFO: Started
 2026-03-31 09:01:26,609 - INFO: Cálculo iniciado pelo usuário
 2026-03-31 09:03:23,572 - INFO: Finished
+2026-03-31 09:09:54,837 - INFO: Started
+2026-03-31 09:15:55,292 - INFO: Finished
+2026-03-31 09:15:58,649 - INFO: Started
+2026-03-31 09:17:09,995 - INFO: Finished
+2026-03-31 09:17:15,018 - INFO: Started
+2026-03-31 09:18:20,082 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:17:52,490 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:19:12,571 - INFO: Finished
+2026-03-31 10:19:50,742 - INFO: Started
+2026-03-31 10:25:17,329 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:25:30,410 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 164, in calculate_water_routing
+    volume_in[i] = G.nodes[i]['runoff_volume']
+                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'runoff_volume'
+2026-03-31 10:25:47,839 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:25:52,197 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 134, in calculate_water_routing
+    df_merged = df_reservoir.merge(df_runoff, on='subasin_id', how='left')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\frame.py", line 12884, in merge
+    return merge(
+           ^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1031, in __init__
+    self._maybe_coerce_merge_keys()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1835, in _maybe_coerce_merge_keys
+    raise ValueError(msg)
+ValueError: You are trying to merge on str and int64 columns for key 'subasin_id'. If you wish to proceed you should use pd.concat
+2026-03-31 10:26:03,641 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:26:33,886 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:27:05,448 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 134, in calculate_water_routing
+    df_merged = df_reservoir.merge(df_runoff, on='subasin_id', how='left')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\frame.py", line 12884, in merge
+    return merge(
+           ^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1031, in __init__
+    self._maybe_coerce_merge_keys()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1835, in _maybe_coerce_merge_keys
+    raise ValueError(msg)
+ValueError: You are trying to merge on int64 and str columns for key 'subasin_id'. If you wish to proceed you should use pd.concat
+2026-03-31 10:27:16,908 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:32:02,709 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 134, in calculate_water_routing
+    df_merged = df_reservoir.merge(df_runoff, on='subasin_id', how='left')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\frame.py", line 12884, in merge
+    return merge(
+           ^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1031, in __init__
+    self._maybe_coerce_merge_keys()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1835, in _maybe_coerce_merge_keys
+    raise ValueError(msg)
+ValueError: You are trying to merge on int64 and str columns for key 'subasin_id'. If you wish to proceed you should use pd.concat
+2026-03-31 10:34:20,107 - INFO: Finished
+2026-03-31 10:34:47,182 - INFO: Started
+2026-03-31 10:35:44,573 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:36:51,398 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 134, in calculate_water_routing
+    df_merged = df_reservoir.merge(df_runoff, on='subasin_id', how='left')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\frame.py", line 12884, in merge
+    return merge(
+           ^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1031, in __init__
+    self._maybe_coerce_merge_keys()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1835, in _maybe_coerce_merge_keys
+    raise ValueError(msg)
+ValueError: You are trying to merge on int64 and str columns for key 'subasin_id'. If you wish to proceed you should use pd.concat
+2026-03-31 10:37:19,938 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:49:00,600 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:49:14,840 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:49:18,144 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 134, in calculate_water_routing
+    df_merged = df_reservoir.merge(df_runoff, on='subasin_id', how='left')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\frame.py", line 12884, in merge
+    return merge(
+           ^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1031, in __init__
+    self._maybe_coerce_merge_keys()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1835, in _maybe_coerce_merge_keys
+    raise ValueError(msg)
+ValueError: You are trying to merge on int64 and str columns for key 'subasin_id'. If you wish to proceed you should use pd.concat
+2026-03-31 10:49:43,660 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:53:43,264 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 256, in on_calcular_click
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 134, in calculate_water_routing
+    df_routing['downstream'] = df_routing['downstream'].replace(-999, np.nan)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\frame.py", line 12884, in merge
+    return merge(
+           ^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1031, in __init__
+    self._maybe_coerce_merge_keys()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1835, in _maybe_coerce_merge_keys
+    raise ValueError(msg)
+ValueError: You are trying to merge on str and int64 columns for key 'subasin_id'. If you wish to proceed you should use pd.concat
+2026-03-31 10:53:44,245 - INFO: Finished
+2026-03-31 10:53:47,176 - INFO: Started
+2026-03-31 10:54:10,263 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:54:26,205 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:54:41,172 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 10:55:17,852 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 11:00:57,795 - INFO: Finished

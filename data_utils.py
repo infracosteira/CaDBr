@@ -19,12 +19,13 @@ from constants import (
 
 
 def clean_dataframe_columns(df: pd.DataFrame, exclude_cols: list = None) -> pd.DataFrame:
-    """Limpa e converte para numérico todas as colunas, exceto as listadas em exclude_cols."""
+    """Limpa strings e garante que todas as colunas sejam numéricas."""
     if exclude_cols is None:
         exclude_cols = []
 
     df_cleaned = df.copy()
     for col in df_cleaned.columns:
+        # Limpeza de caracteres (apenas para colunas que NÃO estão no exclude_cols)
         if col not in exclude_cols:
             df_cleaned[col] = (
                 df_cleaned[col]
@@ -33,9 +34,10 @@ def clean_dataframe_columns(df: pd.DataFrame, exclude_cols: list = None) -> pd.D
                 .str.strip()
                 .str.replace(',', '.', regex=False)
             )
-            df_cleaned[col] = pd.to_numeric(df_cleaned[col], errors='coerce')
-
-    print(df_cleaned.head())  # Debug: Verificar as primeiras linhas após limpeza
+        
+        # CONVERSÃO CRÍTICA: Força todas as colunas (incluindo subasin_id) 
+        # a serem numéricas para evitar erro de merge entre str e int.
+        df_cleaned[col] = pd.to_numeric(df_cleaned[col], errors='coerce')
 
     return df_cleaned
 
