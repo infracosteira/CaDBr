@@ -1,7 +1,9 @@
 # main.py
+from email.mime import image
 import logging
 import traceback
 import tkinter as tk
+import webbrowser
 from tkinter import filedialog, messagebox
 
 import pandas as pd
@@ -77,8 +79,14 @@ def abrir_editor_manual(chave: str, entry_widget: tk.Entry) -> None:
     frame_sheet.grid_columnconfigure(0, weight=1)
     frame_sheet.grid_rowconfigure(0, weight=1)
 
-    # Linhas iniciais em branco para o usuário preencher
-    linhas_iniciais = [[""] * len(colunas) for _ in range(50)]  # 50 linhas em branco
+    # Linhas iniciais: reusa dados já carregados ou abre em branco
+    df_existente = dataframes.get(chave)
+    if df_existente is not None:
+        linhas_iniciais = [list(row) for row in df_existente.itertuples(index=False, name=None)]
+    else:
+        linhas_iniciais = []
+    # Garante ao menos 50 linhas preenchíveis
+    linhas_iniciais += [[""] * len(colunas) for _ in range(50 - len(linhas_iniciais))]
 
     sheet = Sheet(
         frame_sheet,
@@ -287,13 +295,18 @@ def on_calcular_click() -> None:
                 efficiency_manual=efficiency_manual,
             )
 
-        result_discharge.to_csv(f"{nome}.csv", index=False)
+        result_discharge.to_csv(f"{nome}.csv", index=False, sep=';', decimal=',')
         log_saida(f"O arquivo {nome}.csv foi gerado com sucesso!")
 
     except Exception:
         erro = traceback.format_exc()
         messagebox.showerror("Erro inesperado", erro)
         logger.exception("Erro inesperado")
+
+
+def abrir_help() -> None:
+    """Abre a página de documentação do projeto."""
+    webbrowser.open("https://github.com/infracosteira/CaDBr/blob/main/README.md")
 
 
 # ---------------------------------------------------------------------------
@@ -317,21 +330,24 @@ ent_name = tk.Entry(row_name, state=tk.NORMAL)
 ent_name.insert(0, DEFAULT_OUTPUT_NAME)
 ent_name.pack(side='left', expand=True, fill='x', padx=5)
 
+img_icon = tk.PhotoImage(file=resource_path("tableicon.png")).subsample(1, 1)
+
 for label in labels:
     row = tk.Frame(frame_entrada)
+
     row.pack(fill="x", pady=2)
     tk.Label(row, text=f"Carregar arquivo {label}:", width=25, anchor="w").pack(side="left")
     ent = tk.Entry(row, state=tk.DISABLED)
     ent.pack(side="left", expand=True, fill="x", padx=5)
     # Botão editor manual (✎) — abre planilha tksheet
     tk.Button(
-        row, text="✎",
-        width=2,
+        row, image=img_icon,
+        width=21, height=21,
         command=lambda e=ent, l=label: abrir_editor_manual(l, e)
-    ).pack(side="right", padx=(2, 0))
+    ).pack(side="right", padx=(1, 1))
     # Botão seleção de arquivo (...)
     tk.Button(
-        row, text="...",
+        row, text="...", width=2, height=1,
         command=lambda e=ent, l=label: selecionar_arquivo(e, l)
     ).pack(side="right")
 
@@ -357,12 +373,12 @@ tk.Label(row_sed, text="Carregar arquivo sedyield.csv:", width=25, anchor="w").p
 ent_sed = tk.Entry(row_sed, state=tk.DISABLED)
 ent_sed.pack(side="left", expand=True, fill="x", padx=5)
 btn_sed_manual = tk.Button(
-    row_sed, text="✎", width=2, state=tk.DISABLED,
+    row_sed, image=img_icon, width=21, height=21, state=tk.DISABLED,
     command=lambda: abrir_editor_manual("sedyield.csv", ent_sed)
 )
 btn_sed_manual.pack(side="right", padx=(2, 0))
 btn_sed = tk.Button(
-    row_sed, text="...", state=tk.DISABLED,
+    row_sed, text="...", state=tk.DISABLED,width=2, height=1,
     command=lambda: selecionar_arquivo(ent_sed, "sedyield.csv")
 )
 btn_sed.pack(side="right")
@@ -380,12 +396,12 @@ rb_file.pack(side="left")
 ent_param_file = tk.Entry(row_p1, state=tk.DISABLED)
 ent_param_file.pack(side="left", expand=True, fill="x", padx=5)
 btn_param_manual = tk.Button(
-    row_p1, text="✎", width=2, state=tk.DISABLED,
+    row_p1, image=img_icon, width=21, height=21, state=tk.DISABLED,
     command=lambda: abrir_editor_manual("sed_param.csv", ent_param_file)
 )
-btn_param_manual.pack(side="right", padx=(2, 0))
+btn_param_manual.pack(side="right", padx=(2, 1))
 btn_param_file = tk.Button(
-    row_p1, text="...", state=tk.DISABLED,
+    row_p1, text="...", state=tk.DISABLED,width=2, height=1,
     command=lambda: selecionar_arquivo(ent_param_file, "sed_param.csv")
 )
 btn_param_file.pack(side="right")
@@ -429,6 +445,23 @@ txt_saida = tk.Text(frame_saida, height=6, bg="#ffffff", state=tk.DISABLED)
 txt_saida.pack(fill="both", expand=True)
 
 root.iconbitmap(resource_path("icon.ico"))
+
+# 5. BOTÃO AJUDA
+btn_help = tk.Button(
+    root,
+    text="Ajuda",
+    command=abrir_help,
+    font=('Arial', 10, 'bold'),
+)
+btn_help.pack(pady=(0, 5), padx=20)
+
 root.mainloop()
 
 logger.info('Finished')
+
+# Adicionar comportamento de abrir um arquivo ja carregado, e caso contrario abrir vazio para preenchimento na importação manual. (feito)
+# Incluir uma imagem como icone do botão (se possivel). (feito)
+# Conversar com o George sobre o comportamento esperado na importação dos arquivos (feito)
+# Adicionar o botão de ajuda (feito)
+# Conferir a parte dos decimais para casos com necessidade de alta precisão. (feito)
+

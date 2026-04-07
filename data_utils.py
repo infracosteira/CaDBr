@@ -181,10 +181,10 @@ def calculate_water_routing(
 
     result = pd.DataFrame({
         "subasin_id":       df_runoff["subasin_id"],
-        "volume_entrada":   df_runoff["subasin_id"].map(volume_in).astype(int),
-        "volume_total":     df_runoff["subasin_id"].map(volume_out).astype(int),
-        "vazão_de_entrada": df_runoff["subasin_id"].map(peak_in).round(2),
-        "vazão_de_saida":   df_runoff["subasin_id"].map(peak_out).round(2),
+        "volume_entrada":   df_runoff["subasin_id"].map(volume_in).round(4),
+        "volume_total":     df_runoff["subasin_id"].map(volume_out).round(4),
+        "vazão_de_entrada": df_runoff["subasin_id"].map(peak_in).round(4),
+        "vazão_de_saida":   df_runoff["subasin_id"].map(peak_out).round(4),
         "rompeu":           df_runoff["subasin_id"].map(ruptura_dict),
     })
 
@@ -229,14 +229,14 @@ def calculate_sediment_routing(
     sed_discharge['volume_sedimento_erodido'] = (
         result_discharge['rompeu'] * COEF_SED_M
         * (result_discharge['volume_total'] * COEF_FENDA_SED * df_merged['dam_height']) ** COEF_SED_N
-    ).round(2)
+    ).round(4)
 
     # CORREÇÃO 2: Coluna massa_sedimento_erodido estava presente no código original
     # mas foi perdida na refatoração. Restaurada aqui usando a densidade padrão,
     # igual ao comportamento original (calculada antes do loop, com default_density).
     sed_discharge['massa_sedimento_erodido'] = (
         sed_discharge['volume_sedimento_erodido'] * default_density
-    ).round(2)
+    ).round(4)
 
     sed_in = {}
     sed_out = {}
@@ -264,8 +264,8 @@ def calculate_sediment_routing(
         else:
             sed_out[i] = current_efficiency * sed_in[i]
 
-    sed_discharge['sedimento_afluente'] = sed_discharge['subasin_id'].map(sed_in).round(2)
-    sed_discharge['sedimento_efluente'] = sed_discharge['subasin_id'].map(sed_out).round(2)
+    sed_discharge['sedimento_afluente'] = sed_discharge['subasin_id'].map(sed_in).round(4)
+    sed_discharge['sedimento_efluente'] = sed_discharge['subasin_id'].map(sed_out).round(4)
 
     return result_discharge.merge(sed_discharge, on='subasin_id')
 

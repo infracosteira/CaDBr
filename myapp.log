@@ -948,3 +948,229 @@ ValueError: You are trying to merge on str and int64 columns for key 'subasin_id
 2026-03-31 10:54:41,172 - INFO: Cálculo iniciado pelo usuário
 2026-03-31 10:55:17,852 - INFO: Cálculo iniciado pelo usuário
 2026-03-31 11:00:57,795 - INFO: Finished
+2026-03-31 11:19:42,968 - INFO: Started
+2026-03-31 11:26:30,446 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 11:27:11,254 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 11:36:16,081 - INFO: Finished
+2026-03-31 11:36:18,640 - INFO: Started
+2026-03-31 11:36:23,942 - INFO: Finished
+2026-03-31 11:39:58,141 - INFO: Started
+2026-03-31 11:41:27,767 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 11:41:32,714 - INFO: Cálculo iniciado pelo usuário
+2026-03-31 11:59:29,464 - INFO: Finished
+2026-03-31 12:00:59,469 - INFO: Started
+2026-03-31 12:05:52,107 - INFO: Started
+2026-03-31 12:06:00,320 - INFO: Finished
+2026-03-31 12:06:47,862 - INFO: Started
+2026-03-31 12:06:52,175 - INFO: Finished
+2026-03-31 12:07:07,057 - INFO: Started
+2026-03-31 12:07:10,355 - INFO: Finished
+2026-03-31 12:07:25,526 - INFO: Started
+2026-03-31 12:07:28,221 - INFO: Finished
+2026-03-31 12:07:58,477 - INFO: Started
+2026-03-31 12:09:48,179 - INFO: Started
+2026-03-31 12:10:13,070 - INFO: Started
+2026-03-31 12:12:27,935 - INFO: Started
+2026-03-31 12:12:33,050 - INFO: Finished
+2026-03-31 12:12:41,459 - INFO: Started
+2026-03-31 12:12:44,148 - INFO: Finished
+2026-03-31 12:12:52,906 - INFO: Started
+2026-03-31 12:13:08,360 - INFO: Finished
+2026-03-31 12:13:09,723 - INFO: Started
+2026-03-31 12:13:12,923 - INFO: Finished
+2026-03-31 12:13:18,303 - INFO: Started
+2026-03-31 12:13:20,260 - INFO: Finished
+2026-03-31 12:13:26,506 - INFO: Started
+2026-03-31 12:13:41,194 - INFO: Finished
+2026-03-31 12:13:51,814 - INFO: Started
+2026-03-31 12:13:57,285 - INFO: Finished
+2026-03-31 12:14:24,566 - INFO: Started
+2026-03-31 12:14:27,443 - INFO: Finished
+2026-03-31 12:14:48,824 - INFO: Started
+2026-03-31 12:14:51,424 - INFO: Finished
+2026-03-31 12:15:04,248 - INFO: Started
+2026-03-31 12:15:09,010 - INFO: Finished
+2026-03-31 12:15:21,709 - INFO: Started
+2026-03-31 12:15:38,768 - INFO: Started
+2026-03-31 12:15:40,785 - INFO: Finished
+2026-03-31 12:15:48,660 - INFO: Started
+2026-03-31 12:15:52,224 - INFO: Finished
+2026-03-31 12:16:10,059 - INFO: Started
+2026-03-31 12:16:11,968 - INFO: Finished
+2026-03-31 12:16:20,120 - INFO: Started
+2026-03-31 12:17:16,196 - INFO: Finished
+2026-03-31 12:17:19,064 - INFO: Started
+2026-03-31 12:19:00,029 - INFO: Finished
+2026-03-31 12:19:02,348 - INFO: Started
+2026-03-31 12:19:18,610 - INFO: Finished
+2026-03-31 12:19:21,202 - INFO: Started
+2026-03-31 12:19:23,714 - INFO: Finished
+2026-03-31 12:19:29,820 - INFO: Started
+2026-03-31 12:20:50,256 - INFO: Finished
+2026-03-31 12:20:52,792 - INFO: Started
+2026-03-31 12:21:03,313 - INFO: Finished
+2026-03-31 12:21:05,492 - INFO: Started
+2026-03-31 12:21:58,942 - INFO: Finished
+2026-03-31 12:22:01,669 - INFO: Started
+2026-03-31 12:22:11,288 - INFO: Finished
+2026-03-31 12:22:16,671 - INFO: Started
+2026-03-31 12:22:23,649 - INFO: Finished
+2026-03-31 12:22:38,140 - INFO: Started
+2026-03-31 12:22:40,383 - INFO: Finished
+2026-03-31 12:22:45,818 - INFO: Started
+2026-03-31 12:22:50,463 - INFO: Finished
+2026-03-31 12:22:58,890 - INFO: Started
+2026-03-31 12:23:08,693 - INFO: Finished
+2026-03-31 12:23:16,927 - INFO: Started
+2026-03-31 12:24:34,475 - INFO: Finished
+2026-03-31 12:24:36,682 - INFO: Started
+2026-03-31 12:25:23,893 - INFO: Finished
+2026-03-31 12:25:26,036 - INFO: Started
+2026-03-31 12:25:29,264 - INFO: Finished
+2026-03-31 12:25:35,226 - INFO: Started
+2026-03-31 12:28:06,355 - INFO: Finished
+2026-03-31 12:28:11,037 - INFO: Started
+2026-03-31 12:28:13,219 - INFO: Finished
+2026-03-31 12:28:21,351 - INFO: Started
+2026-03-31 12:28:33,042 - INFO: Finished
+2026-03-31 12:28:35,188 - INFO: Started
+2026-03-31 12:28:38,234 - INFO: Finished
+2026-03-31 12:28:45,222 - INFO: Started
+2026-03-31 12:29:36,048 - INFO: Finished
+2026-03-31 12:29:38,718 - INFO: Started
+2026-03-31 12:29:43,287 - INFO: Finished
+2026-03-31 12:29:56,094 - INFO: Started
+2026-03-31 12:29:59,372 - INFO: Finished
+2026-03-31 12:30:29,432 - INFO: Started
+2026-03-31 12:30:31,608 - INFO: Finished
+2026-03-31 12:30:49,140 - INFO: Started
+2026-03-31 12:30:51,290 - INFO: Finished
+2026-03-31 12:31:39,669 - INFO: Started
+2026-03-31 12:31:44,506 - INFO: Finished
+2026-03-31 12:31:56,309 - INFO: Started
+2026-03-31 12:32:19,292 - INFO: Finished
+2026-03-31 12:32:21,463 - INFO: Started
+2026-03-31 12:32:24,294 - INFO: Finished
+2026-03-31 12:32:30,074 - INFO: Started
+2026-03-31 12:32:38,474 - INFO: Finished
+2026-03-31 12:33:49,287 - INFO: Started
+2026-03-31 12:33:51,689 - INFO: Finished
+2026-03-31 12:33:57,624 - INFO: Started
+2026-03-31 12:34:51,315 - INFO: Finished
+2026-03-31 12:34:53,710 - INFO: Started
+2026-03-31 12:34:57,233 - INFO: Finished
+2026-03-31 12:35:07,848 - INFO: Started
+2026-03-31 12:36:01,981 - INFO: Finished
+2026-03-31 12:36:05,059 - INFO: Started
+2026-03-31 12:36:37,841 - INFO: Started
+2026-03-31 12:36:40,801 - INFO: Finished
+2026-03-31 12:36:49,541 - INFO: Started
+2026-03-31 12:37:39,761 - INFO: Finished
+2026-04-01 08:16:35,963 - INFO: Started
+2026-04-01 08:16:39,090 - INFO: Finished
+2026-04-01 08:16:47,007 - INFO: Started
+2026-04-01 08:23:38,281 - INFO: Finished
+2026-04-01 08:24:23,666 - INFO: Started
+2026-04-01 08:24:28,642 - INFO: Finished
+2026-04-01 08:25:28,936 - INFO: Started
+2026-04-01 08:25:37,467 - INFO: Finished
+2026-04-01 08:26:47,751 - INFO: Started
+2026-04-01 08:26:52,229 - INFO: Finished
+2026-04-01 08:27:26,841 - INFO: Started
+2026-04-01 08:27:35,599 - INFO: Finished
+2026-04-01 08:27:41,587 - INFO: Started
+2026-04-01 08:27:56,183 - INFO: Finished
+2026-04-01 08:28:27,706 - INFO: Started
+2026-04-01 08:28:31,338 - INFO: Finished
+2026-04-01 08:28:42,966 - INFO: Started
+2026-04-01 08:28:47,675 - INFO: Finished
+2026-04-01 08:28:53,150 - INFO: Started
+2026-04-01 08:28:58,056 - INFO: Finished
+2026-04-01 08:29:05,605 - INFO: Started
+2026-04-01 08:29:17,403 - INFO: Finished
+2026-04-01 08:29:24,896 - INFO: Started
+2026-04-01 08:29:34,068 - INFO: Finished
+2026-04-01 08:30:01,774 - INFO: Started
+2026-04-01 08:30:07,433 - INFO: Finished
+2026-04-01 08:30:45,722 - INFO: Started
+2026-04-01 08:31:15,561 - INFO: Finished
+2026-04-01 08:31:40,402 - INFO: Started
+2026-04-01 08:31:43,616 - INFO: Finished
+2026-04-01 08:32:02,189 - INFO: Started
+2026-04-01 08:32:05,625 - INFO: Finished
+2026-04-01 08:32:58,974 - INFO: Started
+2026-04-01 08:33:15,409 - INFO: Finished
+2026-04-01 08:33:22,236 - INFO: Started
+2026-04-01 08:33:29,428 - INFO: Finished
+2026-04-01 08:33:44,506 - INFO: Started
+2026-04-01 08:33:51,058 - INFO: Finished
+2026-04-01 08:33:55,852 - INFO: Started
+2026-04-01 08:34:09,335 - INFO: Finished
+2026-04-05 09:13:01,252 - INFO: Started
+2026-04-05 09:13:07,766 - INFO: Finished
+2026-04-05 09:16:00,721 - INFO: Started
+2026-04-05 09:16:34,199 - INFO: Finished
+2026-04-05 09:21:44,983 - INFO: Started
+2026-04-05 09:22:20,800 - INFO: Finished
+2026-04-07 08:58:55,212 - INFO: Started
+2026-04-07 09:00:33,280 - INFO: Finished
+2026-04-07 09:13:28,303 - INFO: Started
+2026-04-07 09:15:13,445 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 09:15:17,985 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 09:17:36,527 - INFO: Finished
+2026-04-07 09:42:07,217 - INFO: Started
+2026-04-07 09:42:46,624 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 09:54:52,822 - INFO: Finished
+2026-04-07 10:01:39,187 - INFO: Started
+2026-04-07 10:02:00,342 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 10:03:43,811 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 10:18:04,105 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 10:57:18,421 - INFO: Finished
+2026-04-07 11:05:42,601 - INFO: Started
+2026-04-07 11:10:12,065 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 11:10:17,214 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 298, in on_calcular_click
+    result_discharge.to_csv(f"{nome}.csv", index=False, sep=";", decimal=",")
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\common.py", line 926, in get_handle
+    handle = open(
+             ^^^^^
+PermissionError: [Errno 13] Permission denied: 'result_discharge.csv'
+2026-04-07 11:10:23,747 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 11:10:41,948 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 11:11:47,952 - INFO: Finished
+2026-04-07 11:12:42,701 - INFO: Started
+2026-04-07 11:14:00,007 - INFO: Finished
+2026-04-07 11:14:57,712 - INFO: Started
+2026-04-07 11:24:18,620 - INFO: Finished
+2026-04-07 13:08:20,615 - INFO: Started
+2026-04-07 13:08:54,190 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 13:09:14,083 - INFO: Finished
+2026-04-07 13:11:40,969 - INFO: Started
+2026-04-07 13:12:06,441 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 13:12:08,966 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 298, in on_calcular_click
+    result_discharge.to_csv(f"{nome}.csv", index=False, sep=';', decimal=',')
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\common.py", line 926, in get_handle
+    handle = open(
+             ^^^^^
+PermissionError: [Errno 13] Permission denied: 'result_discharge.csv'
+2026-04-07 13:12:11,449 - INFO: Cálculo iniciado pelo usuário
+2026-04-07 13:12:31,566 - INFO: Finished

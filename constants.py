@@ -27,3 +27,5 @@ DEFAULT_EFFICIENCY = 0.50  # Eficiência de retenção de sedimentos (fração, 
 # --- Arquivos de saída ---
 
 DEFAULT_OUTPUT_NAME = "result_discharge"
+
+# Preparar arquivo de teste para variaveis de sedimentos dos reservatorios. 
