@@ -1174,3 +1174,8 @@ Traceback (most recent call last):
 PermissionError: [Errno 13] Permission denied: 'result_discharge.csv'
 2026-04-07 13:12:11,449 - INFO: Cálculo iniciado pelo usuário
 2026-04-07 13:12:31,566 - INFO: Finished
+2026-04-16 15:20:42,642 - INFO: Started
+2026-04-16 15:30:27,581 - INFO: Cálculo iniciado pelo usuário
+2026-04-16 15:30:40,332 - INFO: Cálculo iniciado pelo usuário
+2026-04-16 15:30:44,611 - INFO: Cálculo iniciado pelo usuário
+2026-04-16 15:32:21,898 - INFO: Finished

@@ -155,15 +155,26 @@ def calculate_water_routing(
     volume_in = {}
     volume_out = {}
     ruptura_dict = {}
+    peak_in_max = {} 
 
     for i in sequencia:
+        
         upstreams = list(G.predecessors(i))
 
         if upstreams:
-            volume_in[i] = G.nodes[i]['runoff_volume'] + sum(volume_out[up] for up in upstreams)
-            peak_in[i] = G.nodes[i]['runoff_peak_discharge'] + sum(peak_out[up] for up in upstreams)
+
+            volume_in[i] = (G.nodes[i]['runoff_volume']+ sum(volume_out[up] for up in upstreams)) # o volume de entrada será o volume dele, mais a soma do volume de todos os predecessores na lista pega anteriormente
+
+            peak_in_max[i] = (G.nodes[i]['runoff_peak_discharge'] + sum(peak_out[up] for up in upstreams))   # a mesma ideia ocorre aqui para o valor de pico de SAIDA
+
+            aux = (volume_in[i]/G.nodes[i]['runoff_volume']) * G.nodes[i]['runoff_peak_discharge']
+
+            peak_in[i] = min(peak_in_max[i],aux)
+        
         else:
+        
             volume_in[i] = G.nodes[i]['runoff_volume']
+        
             peak_in[i] = G.nodes[i]['runoff_peak_discharge']
 
         spillway = G.nodes[i]['spillway_discharge']
