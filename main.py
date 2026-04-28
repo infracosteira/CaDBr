@@ -459,9 +459,4 @@ root.mainloop()
 
 logger.info('Finished')
 
-# Adicionar comportamento de abrir um arquivo ja carregado, e caso contrario abrir vazio para preenchimento na importação manual. (feito)
-# Incluir uma imagem como icone do botão (se possivel). (feito)
-# Conversar com o George sobre o comportamento esperado na importação dos arquivos (feito)
-# Adicionar o botão de ajuda (feito)
-# Conferir a parte dos decimais para casos com necessidade de alta precisão. (feito)
-
+#encontrar uma forma de variar os parametros 
