@@ -63,10 +63,6 @@ FILE_SCHEMAS = {
         "names": ['subasin_id', 'sediment_density', 'sediment_retention_efficiency'],
         "decimal": ".",
     },
-    "coef_peak.csv": {
-        "names": ['subasin_id', 'coef_peak'],
-        "decimal": ".",
-    },
 }
 
 
@@ -123,17 +119,9 @@ def calculate_water_routing(
     df_reservoir: pd.DataFrame,
     df_routing: pd.DataFrame,
     df_runoff: pd.DataFrame,
-    coef_peak=None,
 ) -> tuple:
     """
     Constrói o grafo direcionado e executa o roteamento hídrico em ordem topológica.
-
-    coef_peak pode ser:
-        - None            → usa a constante COEF_FENDA_PEAK para todas as sub-bacias
-        - float           → usa o valor informado para todas as sub-bacias
-        - pd.DataFrame    → DataFrame com colunas ['subasin_id', 'coef_peak'],
-                            aplicando o coeficiente específico por sub-bacia;
-                            sub-bacias ausentes usam COEF_FENDA_PEAK como fallback
 
     Retorna:
         result       (DataFrame) — volume e vazão de entrada/saída e flag de ruptura
@@ -158,29 +146,9 @@ def calculate_water_routing(
         target='downstream',
         create_using=nx.DiGraph(),
     )
-    # Garante que todos os nos presentes em df_merged existam no grafo,
-    # inclusive sub-bacias sem arestas de roteamento (nos isolados).
-    for node_id in node_attrs:
-        if node_id not in G:
-            G.add_node(node_id)
     nx.set_node_attributes(G, node_attrs)
 
     sequencia = list(nx.topological_sort(G))
-
-    # --- Resolve o coeficiente de pico ---
-    # Monta um mapeamento subasin_id → float para uso eficiente dentro do loop.
-    if coef_peak is None:
-        # Nenhum valor fornecido: usa a constante global para todas as sub-bacias
-        coef_peak_map = None
-        _coef_default = COEF_FENDA_PEAK
-    elif isinstance(coef_peak, pd.DataFrame):
-        # DataFrame por sub-bacia: monta dict e usa COEF_FENDA_PEAK como fallback
-        coef_peak_map = dict(zip(coef_peak['subasin_id'], coef_peak['coef_peak']))
-        _coef_default = COEF_FENDA_PEAK
-    else:
-        # Valor escalar único para todas as sub-bacias
-        coef_peak_map = None
-        _coef_default = float(coef_peak)
 
     peak_in = {}
     peak_out = {}
@@ -190,9 +158,6 @@ def calculate_water_routing(
     peak_in_max = {} 
 
     for i in sequencia:
-
-        # Coeficiente de pico efetivo para esta sub-bacia
-        _coef = coef_peak_map.get(i, _coef_default) if coef_peak_map is not None else _coef_default
         
         upstreams = list(G.predecessors(i))
 
@@ -215,7 +180,7 @@ def calculate_water_routing(
         spillway = G.nodes[i]['spillway_discharge']
         storage_capacity = G.nodes[i]['water_storage_capacity']
 
-        rompeu = _coef * peak_in[i] > spillway
+        rompeu = COEF_FENDA_PEAK * peak_in[i] > spillway
         ruptura_dict[i] = rompeu
 
         if rompeu:
@@ -223,7 +188,7 @@ def calculate_water_routing(
             peak_out[i] = COEF_RUPTURA_A * (volume_out[i] ** COEF_RUPTURA_B)
         else:
             volume_out[i] = volume_in[i]
-            peak_out[i] = _coef * peak_in[i]
+            peak_out[i] = COEF_FENDA_PEAK * peak_in[i]
 
     result = pd.DataFrame({
         "subasin_id":       df_runoff["subasin_id"],

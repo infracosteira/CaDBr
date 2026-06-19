@@ -28,4 +28,4 @@ DEFAULT_EFFICIENCY = 0.50  # Eficiência de retenção de sedimentos (fração, 
 
 DEFAULT_OUTPUT_NAME = "result_discharge"
 
-# fator de correção global dentro de um intervalo 25% - intervalo 10% a 200&
+# Preparar arquivo de teste para variaveis de sedimentos dos reservatorios. 
