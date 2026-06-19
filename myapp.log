@@ -1186,3 +1186,169 @@ PermissionError: [Errno 13] Permission denied: 'result_discharge.csv'
 2026-04-28 14:46:50,911 - INFO: Started
 2026-04-28 14:48:21,804 - INFO: Finished
 2026-04-28 14:50:03,100 - INFO: Started
+2026-05-05 09:29:12,987 - INFO: Started
+2026-05-05 09:30:06,712 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 09:30:34,376 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 09:31:02,762 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 09:31:44,248 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 09:32:10,752 - INFO: Finished
+2026-05-05 09:38:49,413 - INFO: Started
+2026-05-05 10:10:08,466 - INFO: Finished
+2026-05-05 10:53:45,890 - INFO: Started
+2026-05-05 10:54:32,799 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 10:55:17,119 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 10:55:19,786 - INFO: Finished
+2026-05-05 10:55:22,497 - INFO: Started
+2026-05-05 10:55:49,660 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 10:55:57,364 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:20:49,716 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:21:00,150 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:21:52,930 - INFO: Finished
+2026-05-05 11:22:19,582 - INFO: Started
+2026-05-05 11:24:44,139 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:40:39,455 - INFO: Finished
+2026-05-05 11:40:42,643 - INFO: Started
+2026-05-05 11:41:11,204 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:44:11,496 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:44:15,587 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 512, in on_calcular_click
+    _executar_calculo_unico(dfs_ajustados, nome_arquivo)
+  File "C:\Users\yuri\CaDBr\main.py", line 473, in _executar_calculo_unico
+    result_discharge.to_csv(f"{nome_arquivo}.csv", index=False, sep=';', decimal=',')
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\common.py", line 926, in get_handle
+    handle = open(
+             ^^^^^
+PermissionError: [Errno 13] Permission denied: 'result_discharge_100.csv'
+2026-05-05 11:44:18,832 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 11:44:47,586 - INFO: Finished
+2026-05-05 11:59:03,981 - INFO: Started
+2026-05-05 11:59:42,588 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 12:00:49,337 - INFO: Finished
+2026-05-05 12:00:53,981 - INFO: Started
+2026-05-05 12:01:21,403 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 12:01:48,964 - INFO: Started
+2026-05-05 12:02:11,401 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 12:06:00,414 - INFO: Finished
+2026-05-05 12:06:04,615 - INFO: Started
+2026-05-05 12:06:08,714 - INFO: Finished
+2026-05-05 12:06:12,978 - INFO: Started
+2026-05-05 12:06:50,176 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 12:06:55,300 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 12:13:13,953 - INFO: Cálculo iniciado pelo usuário
+2026-05-05 12:25:03,641 - INFO: Finished
+2026-05-12 11:14:19,702 - INFO: Started
+2026-05-19 07:35:04,731 - INFO: Started
+2026-05-19 07:35:13,475 - INFO: Finished
+2026-05-19 07:35:31,326 - INFO: Started
+2026-05-19 07:42:18,040 - INFO: Finished
+2026-05-19 07:42:21,200 - INFO: Started
+2026-05-19 07:43:07,510 - INFO: Finished
+2026-05-19 07:43:24,660 - INFO: Started
+2026-05-19 07:43:42,831 - INFO: Finished
+2026-05-19 07:46:43,545 - INFO: Started
+2026-05-19 07:54:52,006 - INFO: Finished
+2026-05-19 07:54:54,879 - INFO: Started
+2026-05-19 07:55:24,302 - INFO: Started
+2026-05-19 07:56:09,934 - INFO: Started
+2026-05-19 07:56:54,128 - INFO: Started
+2026-05-19 07:58:25,287 - INFO: Started
+2026-05-19 07:58:50,597 - INFO: Started
+2026-05-19 07:59:59,561 - INFO: Finished
+2026-05-19 08:00:01,256 - INFO: Started
+2026-05-19 08:02:04,872 - INFO: Started
+2026-05-19 08:04:29,018 - INFO: Started
+2026-05-19 08:04:45,283 - INFO: Started
+2026-05-19 08:08:28,029 - INFO: Finished
+2026-05-19 08:08:35,608 - INFO: Started
+2026-05-19 08:14:36,659 - INFO: Started
+2026-05-19 08:15:06,626 - INFO: Finished
+2026-05-19 08:15:09,682 - INFO: Started
+2026-05-19 08:16:02,965 - INFO: Finished
+2026-05-19 08:17:34,965 - INFO: Started
+2026-05-19 08:17:37,390 - INFO: Finished
+2026-05-19 08:21:32,811 - INFO: Started
+2026-05-19 08:21:38,411 - INFO: Finished
+2026-05-19 08:24:47,882 - INFO: Started
+2026-05-19 08:29:21,668 - INFO: Finished
+2026-05-19 08:29:24,640 - INFO: Started
+2026-05-19 08:48:39,643 - INFO: Finished
+2026-05-19 10:05:00,025 - INFO: Started
+2026-05-19 10:05:02,829 - INFO: Cálculo iniciado pelo usuário
+2026-05-19 10:05:24,168 - INFO: Cálculo iniciado pelo usuário
+2026-05-19 10:33:30,084 - INFO: Finished
+2026-05-19 10:33:34,240 - INFO: Started
+2026-05-19 10:33:49,760 - INFO: Cálculo iniciado pelo usuário
+2026-05-19 10:34:04,518 - INFO: Finished
+2026-05-19 10:42:36,800 - INFO: Started
+2026-05-19 10:55:36,964 - INFO: Cálculo iniciado pelo usuário
+2026-05-19 11:40:40,942 - INFO: Finished
+2026-05-21 09:55:29,119 - INFO: Started
+2026-05-21 10:01:09,686 - INFO: Started
+2026-05-21 10:03:20,667 - INFO: Cálculo iniciado pelo usuário
+2026-05-21 10:03:24,992 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 532, in on_calcular_click
+    _executar_calculo_unico(dfs_ajustados, nome_arquivo)
+  File "C:\Users\yuri\CaDBr\main.py", line 493, in _executar_calculo_unico
+    result_discharge.to_csv(f"{nome_arquivo}.csv", index=False, sep=';', decimal=',')
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\.venv\Lib\site-packages\pandas\io\common.py", line 926, in get_handle
+    handle = open(
+             ^^^^^
+PermissionError: [Errno 13] Permission denied: 'result_discharge_80.csv'
+2026-05-21 10:03:30,433 - INFO: Cálculo iniciado pelo usuário
+2026-05-21 10:12:17,515 - INFO: Finished
+2026-05-21 10:19:10,730 - INFO: Started
+2026-05-21 10:19:18,152 - INFO: Finished
+2026-05-21 10:33:59,813 - INFO: Started
+2026-05-21 10:34:02,289 - INFO: Finished
+2026-05-21 10:34:08,061 - INFO: Started
+2026-05-21 10:34:10,679 - INFO: Finished
+2026-05-23 11:19:28,859 - INFO: Started
+2026-05-23 11:20:11,976 - INFO: Finished
+2026-06-18 15:53:16,586 - INFO: Started
+2026-06-18 16:12:14,322 - INFO: Finished
+2026-06-18 16:21:36,515 - INFO: Started
+2026-06-18 16:32:55,333 - INFO: Finished
+2026-06-18 16:34:33,627 - INFO: Started
+2026-06-18 16:36:01,838 - INFO: Cálculo iniciado pelo usuário
+2026-06-18 16:36:20,737 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 577, in on_calcular_click
+    _executar_calculo_unico(dataframes, nome_base, coef_peak)
+  File "C:\Users\yuri\CaDBr\main.py", line 482, in _executar_calculo_unico
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: calculate_water_routing() got an unexpected keyword argument 'coef_peak'
+2026-06-18 16:37:28,488 - INFO: Finished
+2026-06-18 16:39:28,510 - INFO: Started
+2026-06-18 16:39:48,614 - INFO: Cálculo iniciado pelo usuário
+2026-06-18 16:41:09,304 - ERROR: Erro inesperado
+Traceback (most recent call last):
+  File "C:\Users\yuri\CaDBr\main.py", line 577, in on_calcular_click
+    _executar_calculo_unico(dataframes, nome_base, coef_peak)
+  File "C:\Users\yuri\CaDBr\main.py", line 482, in _executar_calculo_unico
+    result_discharge, G, ruptura_dict, sequencia, df_merged = calculate_water_routing(
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuri\CaDBr\data_utils.py", line 206, in calculate_water_routing
+KeyError: 'runoff_volume'
+2026-06-18 16:41:10,347 - INFO: Finished
+2026-06-18 16:41:14,087 - INFO: Started
+2026-06-18 16:41:54,756 - INFO: Cálculo iniciado pelo usuário
+2026-06-18 16:42:55,637 - INFO: Cálculo iniciado pelo usuário
