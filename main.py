@@ -17,7 +17,7 @@ from data_utils import (
     calculate_water_routing,
     calculate_sediment_routing,
 )
-from constants import DEFAULT_DENSITY, DEFAULT_EFFICIENCY, DEFAULT_OUTPUT_NAME
+from constants import DEFAULT_DENSITY, DEFAULT_EFFICIENCY, DEFAULT_OUTPUT_NAME, COEF_FENDA_PEAK
 
 # --- Logging ---
 FORMAT = '%(asctime)s - %(levelname)s: %(message)s'
@@ -248,10 +248,37 @@ def _obter_parametros_sedimentos() -> tuple | None:
             return None
 
 
+def _obter_coef_peak() -> float | pd.DataFrame | None:
+    """
+    Lê o coeficiente de pico de acordo com o modo selecionado.
+
+    - Modo 1 (arquivo): retorna o DataFrame carregado em 'coef_peak.csv'
+    - Modo 2 (valor manual): retorna o float digitado ou COEF_FENDA_PEAK por padrão
+    - Retorna None em caso de erro de validação.
+    """
+    if radio_var_peak.get() == 1:
+        df_coef = dataframes.get('coef_peak.csv')
+        if df_coef is None:
+            messagebox.showerror("Erro", "Arquivo de coeficiente de pico não carregado.")
+            return None
+        return df_coef
+    else:
+        val = ent_coef_peak.get().replace(',', '.').strip()
+        try:
+            return float(val) if val else COEF_FENDA_PEAK
+        except ValueError:
+            messagebox.showerror("Erro", "Valor do coeficiente de pico inválido. Use um número (ex: 0.707121014402343).")
+            return None
+
+
 def on_calcular_click() -> None:
     """Callback do botão Calcular — orquestra leitura, cálculo e escrita do resultado."""
     try:
         if not _validar_dataframes_obrigatorios():
+            return
+
+        coef_peak = _obter_coef_peak()
+        if coef_peak is None:
             return
 
         nome = ent_name.get() or DEFAULT_OUTPUT_NAME
@@ -265,6 +292,7 @@ def on_calcular_click() -> None:
             df_reservoir=dataframes['reservoir.csv'],
             df_routing=dataframes['routing.csv'],
             df_runoff=dataframes['runoff.csv'],
+            coef_peak=coef_peak,
         )
 
         if sedimentos_checkbox.get():
@@ -315,7 +343,7 @@ def abrir_help() -> None:
 
 root = tk.Tk()
 root.title("Simulador Hidrológico")
-root.geometry("650x800")
+root.geometry("650x880")
 
 # 1. ENTRADA DE DADOS
 frame_entrada = tk.LabelFrame(root, text="Entrada de dados", padx=10, pady=10)
@@ -350,6 +378,98 @@ for label in labels:
         row, text="...", width=2, height=1,
         command=lambda e=ent, l=label: selecionar_arquivo(e, l)
     ).pack(side="right")
+
+
+# ---------------------------------------------------------------------------
+# 1b. SUBSEÇÃO: COEFICIENTE DE PICO (dentro de frame_entrada)
+# ---------------------------------------------------------------------------
+subframe_coef_peak = tk.LabelFrame(
+    frame_entrada,
+    text="Coeficiente de pico",
+    padx=10,
+    pady=8,
+)
+subframe_coef_peak.pack(fill="x", pady=(8, 2))
+
+radio_var_peak = tk.IntVar(value=2)  # padrão: valor manual
+
+
+def toggle_coef_peak_widgets() -> None:
+    """Habilita/desabilita os widgets conforme o radio button selecionado."""
+    if radio_var_peak.get() == 1:
+        ent_coef_peak_file.config(state=tk.NORMAL)
+        btn_coef_peak_file.config(state=tk.NORMAL)
+        btn_coef_peak_manual.config(state=tk.NORMAL) # Adicione esta linha
+        ent_coef_peak.config(state=tk.DISABLED)
+    else:
+        ent_coef_peak_file.config(state=tk.DISABLED)
+        btn_coef_peak_file.config(state=tk.DISABLED)
+        btn_coef_peak_manual.config(state=tk.DISABLED) # Adicione esta linha
+        ent_coef_peak.config(state=tk.NORMAL)
+
+
+# Linha 1 — opção "Carregar do arquivo"
+row_cp_file = tk.Frame(subframe_coef_peak)
+row_cp_file.pack(fill="x", pady=2)
+
+rb_coef_peak_file = tk.Radiobutton(
+    row_cp_file,
+    text="Carregar do arquivo (subasin_id, coef_peak):",
+    variable=radio_var_peak,
+    value=1,
+    command=toggle_coef_peak_widgets,
+    width=35,
+    anchor="w",
+)
+rb_coef_peak_file.pack(side="left")
+
+ent_coef_peak_file = tk.Entry(row_cp_file, state=tk.DISABLED)
+ent_coef_peak_file.pack(side="left", expand=True, fill="x", padx=5)
+
+# --- ADICIONE ESTA PARTE ---
+btn_coef_peak_manual = tk.Button(
+    row_cp_file, 
+    image=img_icon, 
+    width=21, height=21, 
+    state=tk.DISABLED, # Começa desabilitado conforme o toggle
+    command=lambda: abrir_editor_manual("coef_peak.csv", ent_coef_peak_file)
+)
+btn_coef_peak_manual.pack(side="right", padx=(2, 1))
+# ---------------------------
+
+btn_coef_peak_file = tk.Button(
+    row_cp_file,
+    text="...",
+    width=2,
+    height=1,
+    state=tk.DISABLED,
+    command=lambda: selecionar_arquivo(ent_coef_peak_file, "coef_peak.csv"),
+)
+btn_coef_peak_file.pack(side="right")
+
+# Linha 2 — opção "Utilizar valor manual"
+row_cp_manual = tk.Frame(subframe_coef_peak)
+row_cp_manual.pack(fill="x", pady=2)
+
+rb_coef_peak_manual = tk.Radiobutton(
+    row_cp_manual,
+    text="Utilizar valor padrão/manual:",
+    variable=radio_var_peak,
+    value=2,
+    command=toggle_coef_peak_widgets,
+    width=35,
+    anchor="w",
+)
+rb_coef_peak_manual.pack(side="left")
+
+ent_coef_peak = tk.Entry(row_cp_manual, width=20)
+ent_coef_peak.insert(0, str(COEF_FENDA_PEAK))
+ent_coef_peak.pack(side="left", padx=(5, 0))
+
+tk.Label(row_cp_manual, text="(padrão: COEF_FENDA_PEAK)", fg="#777777", font=('Arial', 8)).pack(side="left", padx=(6, 0))
+
+# Estado inicial: modo manual ativo
+toggle_coef_peak_widgets()
 
 
 # 2. SIMULAR DINÂMICA DE SEDIMENTOS
@@ -459,4 +579,4 @@ root.mainloop()
 
 logger.info('Finished')
 
-#encontrar uma forma de variar os parametros 
+#encontrar uma forma de variar os parametros
